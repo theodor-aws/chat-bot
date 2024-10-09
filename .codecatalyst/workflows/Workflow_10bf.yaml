@@ -9,18 +9,34 @@ Triggers:
 
 # Required - Define action configurations.
 Actions:
-  AWSCDKDeploy_28:
+  Build_2b:
     # Identifies the action. Do not modify this value.
-    Identifier: aws/cdk-deploy@v2.0.2
-    # Required; You can use an environment to access AWS resources.
+    Identifier: aws/build@v1.0.0
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Outputs:
+      # Optional; Automatically discover reports for popular test frameworks
+      AutoDiscoverReports:
+        Enabled: true
+        # Use as prefix for the report files
+        ReportNamePrefix: rpt
+    # Defines the action's properties.
+    Configuration:
+      # Required - Steps are sequential instructions that run shell commands
+      Steps:
+        - Run: echo "Hello, World!"
+        - Run: echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" >> report.xml
+        - Run: echo "<testsuite tests=\"1\" name=\"TestAgentJunit\" >" >> report.xml
+        - Run: echo "<testcase classname=\"TestAgentJunit\" name=\"Dummy
+            Test\"/></testsuite>" >> report.xml
+        - Run: npm i
+        - Run: npx cdk deploy
+      Container:
+        Registry: CODECATALYST
+        Image: CodeCatalystLinuxLambda_x86_64:2024_03
+    Compute:
+      Type: Lambda
+      Fleet: Linux.x86-64.Large
     Environment:
       Name: DeployENV
-    # Specifies the source and/or artifacts to pass to the action as input.
-    Inputs:
-      # Optional
-      Sources:
-        - WorkflowSource # This specifies that the action requires this Workflow as a source
-    Compute:
-      Type: EC2 # Defines the action's properties.
-    Configuration:
-      StackName: SP-Chat-Bot-Demo
