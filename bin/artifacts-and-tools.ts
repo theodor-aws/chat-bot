@@ -12,10 +12,10 @@ const config: StackConfig = {
     enabled: true,
   },
   artifacts: {
-    enabled: true,
+    enabled: false,
   },
   codeInterpreterTool: {
-    enabled: true,
+    enabled: false,
   },
   webSearchTool: {
     enabled: false,

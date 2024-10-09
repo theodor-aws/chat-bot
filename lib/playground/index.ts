@@ -522,6 +522,9 @@ export class Playground extends Construct {
           TOOL_CODE_INTERPRETER: codeInterpreterTool?.functionArn ?? "",
           TOOL_WEB_SEARCH: webSearchTool?.functionArn ?? "",
         },
+        bundling: {
+          
+        }
       }
     );
 
