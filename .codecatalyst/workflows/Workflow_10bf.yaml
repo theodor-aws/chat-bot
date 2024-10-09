@@ -30,13 +30,15 @@ Actions:
         - Run: echo "<testsuite tests=\"1\" name=\"TestAgentJunit\" >" >> report.xml
         - Run: echo "<testcase classname=\"TestAgentJunit\" name=\"Dummy
             Test\"/></testsuite>" >> report.xml
-        - Run: npm i
-        - Run: npx cdk deploy
+        - Run: npm i -g pnpm
+        - Run: pnpm i
+        - Run: pnpm add -g aws-cdk
+        - Run: pnpx cdk deploy
       Container:
         Registry: CODECATALYST
-        Image: CodeCatalystLinuxLambda_x86_64:2024_03
+        Image: CodeCatalystLinux_x86_64:2024_03
     Compute:
-      Type: Lambda
+      Type: EC2
       Fleet: Linux.x86-64.Large
     Environment:
       Name: DeployENV
