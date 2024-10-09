@@ -31,8 +31,8 @@ Actions:
         - Run: echo "<testcase classname=\"TestAgentJunit\" name=\"Dummy
             Test\"/></testsuite>" >> report.xml
         - Run: npm i -g pnpm
+        - Run: npm i -g aws-cdk
         - Run: pnpm i
-        - Run: pnpm add -g aws-cdk
         - Run: pnpx cdk deploy
       Container:
         Registry: CODECATALYST
