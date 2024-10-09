@@ -533,6 +533,7 @@ export class Playground extends Construct {
         actions: [
           "bedrock:InvokeModel",
           "bedrock:InvokeModelWithResponseStream",
+          "bedrock:ApplyGuardrail"
         ],
         resources: [`*`],
       })

@@ -144,6 +144,11 @@ def converse_make_request_stream(
         try:
             streaming_response = bedrock_client.converse_stream(
                 modelId=BEDROCK_MODEL,
+                guardrailConfig={
+                    "guardrailIdentifier": "ykiipv4n3y5t",
+                    "guardrailVersion": "DRAFT",
+                    "trace": "enabled"
+                },
                 system=system,
                 messages=converse_messages,
                 inferenceConfig={"maxTokens": 4096, "temperature": 0.5},
