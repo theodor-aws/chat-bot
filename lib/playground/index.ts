@@ -14,6 +14,7 @@ import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as lambdaNode from "aws-cdk-lib/aws-lambda-nodejs";
 import * as lambdaPython from "@aws-cdk/aws-lambda-python-alpha";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
@@ -503,29 +504,24 @@ export class Playground extends Construct {
             autoDeploy: true,
         });
 
-        const messageHandler = new lambdaPython.PythonFunction(
+        const messageHandler = new lambdaNode.NodejsFunction(
             this,
             "MessageHandler",
             {
                 entry: path.join(__dirname, "./functions/message-handler"),
-                runtime: lambda.Runtime.PYTHON_3_12,
+                runtime: lambda.Runtime.NODEJS_20_X,
                 architecture: lambdaArchitecture,
-                layers: [powerToolsLayer],
                 timeout: cdk.Duration.minutes(15),
                 memorySize: 256,
                 environment: {
                     WEBSOCKET_API_ENDPOINT: stage.callbackUrl,
-                    BEDROCK_REGION: bedrockRegion,
-                    BEDROCK_MODEL: bedrockModel,
-                    SESSION_TABLE_NAME: sessionTable.tableName,
-                    SESSION_BUCKET_NAME: sessionBucket.bucketName,
-                    UPLOAD_BUCKET_NAME: uploadBucket.bucketName,
-                    ARTIFACTS_ENABLED: config.artifacts?.enabled ? "1" : "0",
-                  //TOOL_CODE_INTERPRETER: codeInterpreterTool?.functionArn ?? "",
-                  //TOOL_WEB_SEARCH: webSearchTool?.functionArn ?? "",
-                },
-                bundling: {
-
+                    BEDROCK_REGION      : bedrockRegion,
+                    BEDROCK_MODEL       : bedrockModel,
+                    SESSION_TABLE_NAME  : sessionTable.tableName,
+                    SESSION_BUCKET_NAME : sessionBucket.bucketName,
+                    UPLOAD_BUCKET_NAME  : uploadBucket.bucketName,
+                    GUARDRAIL_ID        : '',
+                    GUARDRAIL_VERSION   : ''
                 }
             }
         );
