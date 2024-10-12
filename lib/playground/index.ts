@@ -508,7 +508,7 @@ export class Playground extends Construct {
             this,
             "MessageHandler",
             {
-                entry: path.join(__dirname, "./functions/message-handler"),
+                entry: path.join(__dirname, "./functions/message-handler/index.ts"),
                 runtime: lambda.Runtime.NODEJS_20_X,
                 architecture: lambdaArchitecture,
                 timeout: cdk.Duration.minutes(15),
