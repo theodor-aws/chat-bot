@@ -334,8 +334,12 @@ export class Playground extends Construct {
         sessionBucket: s3.IBucket;
         uploadBucket: s3.IBucket;
     }) {
-        const apiHandler = new lambdaPython.PythonFunction(this, "ApiHandler", {
-            entry: path.join(__dirname, "./functions/api-handler"),
+        const apiHandler = new lambda.Function(this, "ApiHandler", {
+
+            code: lambda.Code.fromAsset(
+                path.join(__dirname, "./functions/api-handler")
+            ),
+            handler: "index.handler",
             runtime: lambda.Runtime.PYTHON_3_12,
             architecture: lambdaArchitecture,
             timeout: cdk.Duration.minutes(5),
@@ -346,8 +350,8 @@ export class Playground extends Construct {
                 X_ORIGIN_VERIFY_SECRET_ARN: xOriginVerifySecret.secretArn,
                 SESSION_TABLE_NAME: sessionTable.tableName,
                 SESSION_BUCKET_NAME: sessionBucket.bucketName,
-                UPLOAD_BUCKET_NAME: uploadBucket.bucketName,
-            },
+                UPLOAD_BUCKET_NAME: uploadBucket.bucketName
+            }
         });
 
         sessionBucket.grantReadWrite(apiHandler);
