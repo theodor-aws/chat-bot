@@ -43,5 +43,3 @@ Actions:
         Image: CodeCatalystLinuxLambda_x86_64:2024_03
     Compute:
       Type: Lambda
-    Environment:
-      Name: DeployENV
