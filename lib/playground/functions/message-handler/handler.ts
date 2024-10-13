@@ -52,14 +52,19 @@ export async function handle_message(logger: Logger, connection_id: string, user
 
         if (event_type === "HEARTBEAT") {
 
+            logger.info('HEARTBEAT')
             sender.send_heartbeat()
         }
 
         else if (event_type === "CONVERSE") {
 
+            logger.info('CONVERSE')
+
             const message   = body.message
             const files     = body.files || []
             const [new_session, session] = await load_session(s3_client, user_id, session_id)
+
+            logger.info('CONVERSE: session', { new_session, session })
 
             const converse_messages = session.messages as Array<Message>
             const inline_files      = session.inline_files as Array<File>
@@ -157,15 +162,26 @@ async function converse_make_request_stream(
     converse_messages   : Array<Message>,
     files               : Array<File>
 ){
-    const file_names        = files.map(i => basename(i.file_name))
-    const system            = system_messages(file_names)    
-    const max_retries       = 10
-
-    let num_retries         = 0
+    const file_names    = files.map(i => basename(i.file_name))
+    const system        = system_messages(file_names)    
+    const max_retries   = 10
+    let   num_retries   = 0
 
     while (num_retries < max_retries) {
 
         try {
+
+            logger.info(`CONVERSE: attempt ${num_retries} out of ${max_retries}`, { converse_messages })
+
+            const guardrailConfig = GUARDRAIL_ID ? {
+
+                guardrailConfig : {
+
+                    guardrailIdentifier : GUARDRAIL_ID,
+                    guardrailVersion    : GUARDRAIL_VERSION
+                }
+
+            } : undefined;
 
             const streaming_response = await bedrock.converseStream({
 
@@ -176,12 +192,7 @@ async function converse_make_request_stream(
                     maxTokens   : 4096,
                     temperature : 0.5
                 },
-                guardrailConfig : {
-
-                    guardrailIdentifier : GUARDRAIL_ID,
-                    guardrailVersion    : GUARDRAIL_VERSION,
-                    trace               : 'disabled'
-                }
+                ...guardrailConfig
             })
 
             if (streaming_response.stream) {
