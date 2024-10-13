@@ -1,4 +1,5 @@
-Name: Workflow_10bf
+Name: CDK-Deployment
+RunMode: SUPERSEDED
 SchemaVersion: "1.0"
 
 # Optional - Set automatic triggers.
