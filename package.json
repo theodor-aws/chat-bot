@@ -1,16 +1,18 @@
 {
-  "name": "artifacts-and-tools",
+  "name": "chat-bot",
   "version": "0.1.0",
   "bin": {
-    "artifacts-and-tools": "bin/artifacts-and-tools.js"
+    "chat-bot": "bin/chat-bot.js"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
+    "bootstrap": "cdk bootstrap",
+    "deploy": "cdk deploy",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "format": "npx prettier --ignore-path .gitignore --write \"**/*.+(js|ts|jsx|tsx|json|css)\""
+    "format": "npx prettier --ignore-path .gitignore --write \"**/*.+(js|ts|jsx|tsx|json|css)\"",
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.145",
