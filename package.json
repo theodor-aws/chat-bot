@@ -5,8 +5,7 @@
         "chat-bot": "bin/chat-bot.js"
     },
     "scripts": {
-        "build"     : "tsc",
-        "watch"     : "tsc -w",
+        "build"     : "",
         "test"      : "jest",
         "cdk"       : "cdk",
         "bootstrap" : "cdk bootstrap",
