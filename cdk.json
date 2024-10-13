@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/artifacts-and-tools.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/chat-bot.ts",
   "watch": {
     "include": ["**"],
     "exclude": [
