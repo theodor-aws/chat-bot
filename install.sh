@@ -1,5 +1,5 @@
 sudo npm install -g pnpm
 pnpm install
-pnpm run build -r
+pnpm run -r build
 pnpm run bootstrap
 pnpm run deploy
