@@ -18,17 +18,24 @@ import {
 import { basename } from "path"
 
 const THROTTLE_DELAY    = 3000
-const AWS_REGION        = process.env["AWS_REGION"]
-const BEDROCK_REGION    = process.env["BEDROCK_REGION"]||''
-const BEDROCK_MODEL     = process.env["BEDROCK_MODEL"]||''
-const GUARDRAIL_ID      = process.env["GUARDRAIL_ID"]||undefined
-const GUARDRAIL_VERSION = process.env["GUARDRAIL_VERSION"]||'DRAFT'
+const BEDROCK_REGION    = process.env["BEDROCK_REGION"]?.trim()     || undefined
+const BEDROCK_MODEL     = process.env["BEDROCK_MODEL"]?.trim()      ||'us.anthropic.claude-3-haiku-20240307-v1:0'
+const GUARDRAIL_ID      = process.env["GUARDRAIL_ID"]?.trim()       || undefined
+const GUARDRAIL_VERSION = process.env["GUARDRAIL_VERSION"]?.trim()  ||'DRAFT'
+const GUARDRAIL_REGEXP  = new RegExp(/arn\:.*\/([a-z0-9_-]+)$/)
 
 const s3_client         = new S3();
-const bedrock           = new BedrockRuntime({
+const bedrock           = new BedrockRuntime({ region: BEDROCK_REGION })
 
-    'region': BEDROCK_REGION || AWS_REGION || undefined
-})
+
+
+
+
+function get_guardrail_id(id: string): string {
+
+    const m = GUARDRAIL_REGEXP.exec(id.trim())
+    return m && m[1] || id
+}
 
 
 
@@ -173,16 +180,6 @@ async function converse_make_request_stream(
 
             logger.info(`CONVERSE: attempt ${num_retries} out of ${max_retries}`, { converse_messages })
 
-            const guardrailConfig = GUARDRAIL_ID ? {
-
-                guardrailConfig : {
-
-                    guardrailIdentifier : GUARDRAIL_ID,
-                    guardrailVersion    : GUARDRAIL_VERSION
-                }
-
-            } : undefined;
-
             const streaming_response = await bedrock.converseStream({
 
                 modelId     : BEDROCK_MODEL,
@@ -192,7 +189,12 @@ async function converse_make_request_stream(
                     maxTokens   : 4096,
                     temperature : 0.5
                 },
-                ...guardrailConfig
+                guardrailConfig : GUARDRAIL_ID ? {
+
+                    guardrailIdentifier : get_guardrail_id(GUARDRAIL_ID),
+                    guardrailVersion    : GUARDRAIL_VERSION
+
+                } : undefined
             })
 
             logger.info(`CONVERSE: attempt ${num_retries}: response`, { streaming_response })
