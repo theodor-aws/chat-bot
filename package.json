@@ -5,7 +5,6 @@
         "chat-bot": "bin/chat-bot.js"
     },
     "scripts": {
-        "build"     : "",
         "test"      : "jest",
         "cdk"       : "cdk",
         "bootstrap" : "cdk bootstrap",
