@@ -72,10 +72,10 @@ export async function save_session(s3_client: S3, user_id: string, session_id: s
 
 
 
-export function create_dynamodb_session(user_id: string, session_id: string, title: string = "") {
+export async function create_dynamodb_session(user_id: string, session_id: string, title: string = "") {
 
     const now = new Date()
-    const response = dynamodb.putItem({
+    const response = await dynamodb.putItem({
 
         TableName   : SESSION_TABLE_NAME,
         Item        : {
@@ -88,6 +88,6 @@ export function create_dynamodb_session(user_id: string, session_id: string, tit
         }
     })
 
-    console.log(response)
+    console.log("DDB Session", response)
     return response
 }

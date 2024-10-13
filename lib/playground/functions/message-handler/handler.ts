@@ -195,6 +195,8 @@ async function converse_make_request_stream(
                 ...guardrailConfig
             })
 
+            logger.info(`CONVERSE: attempt ${num_retries}: response`, { streaming_response })
+
             if (streaming_response.stream) {
 
                 let text: string = ''
@@ -209,11 +211,13 @@ async function converse_make_request_stream(
 
                         if (t) {
 
-                            sender.send_text(text)
+                            sender.send_text(t)
                             text += t
                         }
                     }
                 }
+
+                logger.info(`CONVERSE: attempt ${num_retries}: final text`, { text })
 
                 converse_messages.push({ role: 'assistant', content: [{ text }] })
                 return true
