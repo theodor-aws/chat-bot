@@ -9,7 +9,7 @@ Triggers:
 
 # Required - Define action configurations.
 Actions:
-  Build_2b:
+  Build_CDK_Stack:
     # Identifies the action. Do not modify this value.
     Identifier: aws/build@v1.0.0
     Inputs:
@@ -31,18 +31,31 @@ Actions:
         - Run: pnpm install
         - Run: pnpm add aws-cdk
         - Run: pnpm exec cdk deploy --require-approval never
-
         - Run: echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" >> report.xml
         - Run: echo "<testsuite tests=\"1\" name=\"TestAgentJunit\" >" >> report.xml
-        - Run: echo "<testcase classname=\"TestAgentJunit\" name=\"Dummy Test\"/></testsuite>" >> report.xml
+        - Run: echo "<testcase classname=\"TestAgentJunit\" name=\"Dummy
+            Test\"/></testsuite>" >> report.xml
         - Run: echo "</testsuite>" >> report.xml
-
-
       Container:
         Registry: CODECATALYST
-        Image: CodeCatalystLinux_x86_64:2024_03
+        Image: CodeCatalystLinuxLambda_x86_64:2024_03
     Compute:
-      Type: EC2
+      Type: Lambda
       Fleet: Linux.x86-64.Large
     Environment:
       Name: DeployENV
+    DependsOn:
+      - Bootstrap_CDK
+  Bootstrap_CDK:
+    # Identifies the action. Do not modify this value.
+    Identifier: aws/cdk-bootstrap@v2.0.1
+    # Required; You can use an environment to access AWS resources.
+    Environment:
+      Name: DeployENV
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Compute:
+      Type: Lambda
+    Configuration:
+      Region: us-east-1
