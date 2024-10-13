@@ -30,7 +30,8 @@ Actions:
         - Run: npm i -g pnpm
         - Run: pnpm install
         - Run: pnpm add aws-cdk
-        - Run: pnpm exec cdk deploy --require-approval never
+        - Run: pnpx cdk bootstrap
+        - Run: pnpx cdk deploy --require-approval never
         - Run: echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" >> report.xml
         - Run: echo "<testsuite tests=\"1\" name=\"TestAgentJunit\" >" >> report.xml
         - Run: echo "<testcase classname=\"TestAgentJunit\" name=\"Dummy
@@ -44,18 +45,3 @@ Actions:
       Fleet: Linux.x86-64.Large
     Environment:
       Name: DeployENV
-    DependsOn:
-      - Bootstrap_CDK
-  Bootstrap_CDK:
-    # Identifies the action. Do not modify this value.
-    Identifier: aws/cdk-bootstrap@v2.0.1
-    # Required; You can use an environment to access AWS resources.
-    Environment:
-      Name: DeployENV
-    Inputs:
-      Sources:
-        - WorkflowSource
-    Compute:
-      Type: Lambda
-    Configuration:
-      Region: us-east-1
