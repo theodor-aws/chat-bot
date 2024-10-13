@@ -266,6 +266,9 @@ export class Playground extends Construct {
             }
         });
 
+        const asset = s3deploy.Source.asset(buildPath)
+
+        /*
         const asset = s3deploy.Source.asset(appPath, {
             bundling: {
                 image: cdk.DockerImage.fromRegistry(
@@ -292,8 +295,7 @@ export class Playground extends Construct {
 
                           //execSync(`npm --prefix "${appPath}" install`, options);
                           //execSync(`npm --prefix "${appPath}" run build`, options);
-                            
-                            execSync(`pnpm install`, options);
+                          //execSync(`pnpm install`, options);
                             execSync(`pnpm run build`, options);
                             Utils.copyDirRecursive(buildPath, outputDir);
 
@@ -308,6 +310,7 @@ export class Playground extends Construct {
                 }
             }
         });
+        */
 
         new s3deploy.BucketDeployment(this, "UserInterfaceDeployment", {
             prune: false,
