@@ -1,25 +1,25 @@
-import { Utils } from "../utils";
-import { Construct } from "constructs";
-import { ExecSyncOptionsWithBufferEncoding, execSync } from "node:child_process";
-import { WebSocketLambdaAuthorizer } from "aws-cdk-lib/aws-apigatewayv2-authorizers";
-import { WebSocketLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
-import { StackConfig } from "../types";
-import * as path from "node:path";
-import * as cdk from "aws-cdk-lib";
-import * as s3 from "aws-cdk-lib/aws-s3";
-import * as cf from "aws-cdk-lib/aws-cloudfront";
-import * as cognito from "aws-cdk-lib/aws-cognito";
-import * as cognitoIdentityPool from "@aws-cdk/aws-cognito-identitypool-alpha";
-import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
-import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
-import * as apigateway from "aws-cdk-lib/aws-apigateway";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import * as lambdaNode from "aws-cdk-lib/aws-lambda-nodejs";
-import * as lambdaPython from "@aws-cdk/aws-lambda-python-alpha";
-import * as logs from "aws-cdk-lib/aws-logs";
-import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
-import * as apigwv2 from "aws-cdk-lib/aws-apigatewayv2";
-import * as iam from "aws-cdk-lib/aws-iam";
+import { type StackConfig               } from "../types"
+import { type ExecSyncOptionsWithBufferEncoding,
+              execSync                  } from "node:child_process"
+import { Utils                          } from "../utils"
+import { Construct                      } from "constructs"
+import { WebSocketLambdaAuthorizer      } from "aws-cdk-lib/aws-apigatewayv2-authorizers"
+import { WebSocketLambdaIntegration     } from "aws-cdk-lib/aws-apigatewayv2-integrations"
+import * as path                          from "node:path"
+import * as cdk                           from "aws-cdk-lib"
+import * as s3                            from "aws-cdk-lib/aws-s3"
+import * as cf                            from "aws-cdk-lib/aws-cloudfront"
+import * as cognito                       from "aws-cdk-lib/aws-cognito"
+import * as cognitoIdentityPool           from "@aws-cdk/aws-cognito-identitypool-alpha"
+import * as secretsmanager                from "aws-cdk-lib/aws-secretsmanager"
+import * as s3deploy                      from "aws-cdk-lib/aws-s3-deployment"
+import * as apigateway                    from "aws-cdk-lib/aws-apigateway"
+import * as lambda                        from "aws-cdk-lib/aws-lambda"
+import * as lambdaNode                    from "aws-cdk-lib/aws-lambda-nodejs"
+import * as logs                          from "aws-cdk-lib/aws-logs"
+import * as dynamodb                      from "aws-cdk-lib/aws-dynamodb"
+import * as apigwv2                       from "aws-cdk-lib/aws-apigatewayv2"
+import * as iam                           from "aws-cdk-lib/aws-iam"
 
 export interface PlaygroundProps {
 

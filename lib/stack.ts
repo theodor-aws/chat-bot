@@ -1,13 +1,9 @@
-import * as path from "node:path";
-import * as cdk from "aws-cdk-lib";
-import { Construct } from "constructs";
-import { StackConfig } from "./types";
-import { Playground } from "./playground";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import * as logs from "aws-cdk-lib/aws-logs";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
+import * as cdk             from "aws-cdk-lib"
+import * as lambda          from "aws-cdk-lib/aws-lambda"
+import * as secretsmanager  from "aws-cdk-lib/aws-secretsmanager"
+import { Construct        } from "constructs"
+import { StackConfig      } from "./types"
+import { Playground       } from "./playground"
 
 const lambdaArchitecture = lambda.Architecture.X86_64;
 
@@ -25,7 +21,7 @@ export class ChatBotStack extends cdk.Stack {
     ) {
         super(scope, id, { description: "ChatBot", ...props, });
 
-        const bedrockRegion = props.config.bedrockRegion ?? cdk.Aws.REGION;
+        const bedrockRegion = props.config.bedrockRegion || props.env?.region || cdk.Aws.REGION;
         const bedrockModel  = props.config.bedrockModel;
         const powerToolsLayerVersion = "72";
         const powerToolsLayer = lambda.LayerVersion.fromLayerVersionArn(
