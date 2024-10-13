@@ -42,6 +42,7 @@ export class Playground extends Construct {
 
         const appPath   = path.join(__dirname, "user-interface");
         const buildPath = path.join(appPath, "dist");
+        const buildZip  = path.join(appPath, "dist.zip");
 
         const websiteBucket = new s3.Bucket(this, "WebsiteBucket", {
 
@@ -266,7 +267,7 @@ export class Playground extends Construct {
             }
         });
 
-        const asset = s3deploy.Source.asset(buildPath)
+        const asset = s3deploy.Source.asset(buildZip)
 
         /*
         const asset = s3deploy.Source.asset(appPath, {
@@ -293,10 +294,8 @@ export class Playground extends Construct {
                                 },
                             };
 
-                          //execSync(`npm --prefix "${appPath}" install`, options);
-                          //execSync(`npm --prefix "${appPath}" run build`, options);
-                          //execSync(`pnpm install`, options);
-                            execSync(`pnpm run build`, options);
+                            execSync(`npm --prefix "${appPath}" install`, options);
+                            execSync(`npm --prefix "${appPath}" run build`, options);
                             Utils.copyDirRecursive(buildPath, outputDir);
 
                         } catch (e) {
