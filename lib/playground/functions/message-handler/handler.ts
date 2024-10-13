@@ -106,7 +106,7 @@ export async function handle_message(logger: Logger, connection_id: string, user
                 content : content,
             })
 
-            const finish = converse_make_request_stream(
+            const finish = await converse_make_request_stream(
                 logger,
                 sender,
                 user_id,
@@ -117,11 +117,11 @@ export async function handle_message(logger: Logger, connection_id: string, user
 
             if (new_session) {
 
-                create_dynamodb_session(user_id, session_id, message)
+                await create_dynamodb_session(user_id, session_id, message)
             }
 
-            save_session(s3_client, user_id, session_id, session)
-            sender.send_loop(finish)
+            await sender.send_loop(finish)
+            await save_session(s3_client, user_id, session_id, session)
         }
 
         else {
