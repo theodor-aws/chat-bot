@@ -1,11 +1,10 @@
-import { type S3, S3ServiceException } from "@aws-sdk/client-s3"
-import { DynamoDB } from "@aws-sdk/client-dynamodb"
+import { type S3, S3ServiceException    } from "@aws-sdk/client-s3"
+import { DynamoDB                       } from "@aws-sdk/client-dynamodb"
+import { zip, unzip                     } from "./zip"
 
 const SESSION_TABLE_NAME    = process.env["SESSION_TABLE_NAME"]||""
 const SESSION_BUCKET_NAME   = process.env["SESSION_BUCKET_NAME"]||""
 const dynamodb              = new DynamoDB()
-
-
 
 
 
@@ -21,11 +20,11 @@ export async function load_session(s3: S3, user_id: string, session_id: string) 
             Key     : key
         })
 
-        const body = await response.Body?.transformToString()
+        const body = await response.Body?.transformToByteArray().then(unzip)
 
         if (body) {
 
-            const data = JSON.parse(body)
+            const data = JSON.parse(body.toString())
             return [ false, data ]
         }
     }
@@ -61,7 +60,7 @@ export async function load_session(s3: S3, user_id: string, session_id: string) 
 export async function save_session(s3_client: S3, user_id: string, session_id: string, session: Record<string,any>){
 
     const key = `${user_id}/${session_id}/session.jsonb`
-    const body = JSON.stringify(session)
+    const body = await zip(JSON.stringify(session))
     return s3_client.putObject({
 
         Bucket: SESSION_BUCKET_NAME,
