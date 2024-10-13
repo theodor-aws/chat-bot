@@ -290,8 +290,11 @@ export class Playground extends Construct {
                                 },
                             };
 
-                            execSync(`npm --silent --prefix "${appPath}" install`, options);
-                            execSync(`npm --silent --prefix "${appPath}" run build`, options);
+                          //execSync(`npm --prefix "${appPath}" install`, options);
+                          //execSync(`npm --prefix "${appPath}" run build`, options);
+                            
+                            execSync(`pnpm install`, options);
+                            execSync(`pnpm run build`, options);
                             Utils.copyDirRecursive(buildPath, outputDir);
 
                         } catch (e) {
