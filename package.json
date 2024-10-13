@@ -8,7 +8,7 @@
         "test"      : "jest",
         "cdk"       : "cdk",
         "bootstrap" : "cdk bootstrap",
-        "deploy"    : "cdk deploy",
+        "deploy"    : "cdk deploy --require-approval never",
         "lint"      : "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "format"    : "npx prettier --ignore-path .gitignore --write \"**/*.+(js|ts|jsx|tsx|json|css)\""
     },
