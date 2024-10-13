@@ -24,20 +24,6 @@ This sample offers an innovative chat-based user interface with support for tool
 | Web Search       | Using the Brave Search API to retrieve data | Available |
 | SQL Client       | Accessing Amazon RDS databases to retrieve data | Coming soon  |
 
-### Sample queries
-```
-Draw a graph of y = log(2x^2)e^x + 1
-```
-![sample](./assets/screen01.png "Screenshot")
-```
-Create a beautifully designed tic-tac-toe game.
-```
-![sample](./assets/screen02.png "Screenshot")
-```
-Create a beautifully designed user registration form.
-```
-![sample](./assets/screen03.png "Screenshot")
-
 ## Configuration
 
 Before deploying the solution, make sure the configuration in ``bin/artifacts-and-tools.ts`` is correct.
