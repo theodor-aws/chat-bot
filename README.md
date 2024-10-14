@@ -21,7 +21,8 @@ You have:
 
 1. An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 2. `AdministratorAccess` policy granted to your AWS account (for production, we recommend restricting access as needed)
-3. Please make sure, that you have activated access to Claude 3 Haiku Model in **us-west-2** region in your account: Switch to `us-west-2` region -> `Amazon Bedrock` -> [Model Access](https://us-west-2.console.aws.amazon.com/bedrock/home?region=us-west-2#/modelaccess)
+3. Switch to **us-west-2** region
+4. Activate access to Anthropic Claude Models in your account **and region**: [Model Access in **us-west-2**](https://us-west-2.console.aws.amazon.com/bedrock/home?region=us-west-2#/modelaccess)
 
 #### Deploy with CloudShell
 
@@ -47,7 +48,7 @@ ChatBot.UserInterfaceDomainName = https://dxxxxxxxxxxxxx.cloudfront.net
 ChatBot.CognitoUserPool = https://xxxxx.console.aws.amazon.com/cognito/v2/
 ...
 ```
-You may also find this information in the `Outputs` tab of CloudFormation stack: [CloudFormatin -> `ChatBot`](https://console.aws.amazon.com/cloudformation/home/stacks)
+You may also find this information in the `Outputs` tab of CloudFormation stack: [CloudFormatin → ChatBot](https://console.aws.amazon.com/cloudformation/home/stacks)
 
 **Step 3.** Add your chat-bot users. Open the generated **CognitoUserPool** Link from outputs above i.e. `https://xxxxx.console.aws.amazon.com/cognito/v2/idp/user-pools/xxxxx_XXXXX/users?region=xxxxx`
 
