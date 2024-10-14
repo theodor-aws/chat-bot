@@ -1,12 +1,7 @@
-# Artifacts and Tools for Bedrock
-
-Try **Artifacts** and **Code Interpreter Tool** with Amazon Bedrock. 
-
-##  [>> EXAMPLES <<](EXAMPLES.md) 
+# Simple Chat-Bot for Bedrock
 
 ## Table of contents
 - [Overview](#overview)
-- [Configuration](#configuration)
 - [Deployment](#deployment)
 - [Security](#security)
 - [Supported AWS Regions](#supported-aws-regions)
@@ -15,82 +10,31 @@ Try **Artifacts** and **Code Interpreter Tool** with Amazon Bedrock.
 
 ## Overview
 
-This sample offers an innovative chat-based user interface with support for tools and artifacts. It can create graphs and diagrams, analyze data, write games, create web pages, generate files, and much more. The project uses the [Amazon Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html).
-
-| Capability | Description | Status |
-| -------- | ------- | ------- |
-| Artifacts        | Content and App Visualization | Available |
-| Code Interpreter | Running code to accomplish tasks | Available |
-| Web Search       | Using the Brave Search API to retrieve data | Available |
-| SQL Client       | Accessing Amazon RDS databases to retrieve data | Coming soon  |
-
-## Configuration
-
-Before deploying the solution, make sure the configuration in ``bin/artifacts-and-tools.ts`` is correct.
-
-```js
-{
-  bedrockRegion: "us-east-1",
-  bedrockModel: "anthropic.claude-3-5-sonnet-20240620-v1:0",
-  playground: {
-    enabled: true,
-  },
-  artifacts: {
-    enabled: true,
-  },
-  codeInterpreterTool: {
-    enabled: true,
-  },
-  webSearchTool: {
-    enabled: false,
-  },
-}
-```
+This sample offers a simple chat-based user interface to Bedrock Models that support Converse API, including Antropic Claude 3 Models. The project uses the [Amazon Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html).
 
 ## Deployment
 
-### Environment setup
-#### Local deployment
+#### Environment setup
 First, verify that your environment satisfies the following prerequisites:
 
 You have:
 
 1. An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 2. `AdministratorAccess` policy granted to your AWS account (for production, we recommend restricting access as needed)
-3. Both console and programmatic access
-4. [NodeJS 20+](https://nodejs.org/en/download/) installed
-    - If you are using [`nvm`](https://github.com/nvm-sh/nvm) you can run the following before proceeding
-    - ```
-      nvm install 20 && nvm use 20
-      ```
-5. [AWS CLI](https://aws.amazon.com/cli/) installed and configured to use with your AWS account
-6. [Typescript 3.8+](https://www.typescriptlang.org/download) installed
-7. [AWS CDK CLI](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html) installed
-8. [Docker](https://docs.docker.com/get-docker/) installed
-   - N.B. [`buildx`](https://github.com/docker/buildx) is also required. For Windows and macOS `buildx` [is included](https://github.com/docker/buildx#windows-and-macos) in [Docker Desktop](https://docs.docker.com/desktop/)
+3. Please make sure, that you have activated access to Claude 3 Haiku Model in **us-west-2** region in your account: Switch **us-west-2** region -> Bedrock -> [Model Access @ us-west-2](https://us-west-2.console.aws.amazon.com/bedrock/home?region=us-west-2#/modelaccess)
 
-#### Deploy with Github Codespaces
-If you'd like to use [GitHub Codespaces](https://github.com/features/codespaces) to deploy the solution, you will need the following before proceeding:
-1. An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
-2. An [IAM User](https://console.aws.amazon.com/iamv2/home?#/users/create) with:
-  - `AdministratorAccess` policy granted to your user (for production, we recommend restricting access as needed)
-  - Take note of `Access key` and `Secret access key`.
+#### Deploy with CloudShell
 
-To get started, click on the button below.
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/aws-samples/cloudscape-examples)
-
-Once in the Codespaces terminal, set up the AWS Credentials by running
+1. Login to AWS Console
+2. Switch to **us-west-2** (Oregon) region
+3. Open CloudShell (use a button on the top-side bar of the console)
+4. Run the following commands in CloudShell:
 
 ```shell
-aws configure
-```
-
-```shell
-AWS Access Key ID [None]: <the access key from the IAM user generated above>
-AWS Secret Access Key [None]: <the secret access key from the IAM user generated above>
-Default region name: <the region you plan to deploy the solution to>
-Default output format: json
+git clone https://github.com/theodor-aws/chat-bot
+cd chat-bot
+chmod +x install.sh
+./install.sh
 ```
 
 You are all set for deployment; you can now jump to [deployment](#deployment).
@@ -99,46 +43,28 @@ You are all set for deployment; you can now jump to [deployment](#deployment).
 
 **Step 1.** Clone the repository
 ```bash
-git clone https://github.com/aws-samples/artifacts-and-tools-for-bedrock
+git clone https://github.com/theodor-aws/chat-bot
 ```
 **Step 2.** Move into the cloned repository
 ```bash
-cd artifacts-and-tools-for-bedrock
+cd chat-bot
 ```
-
-<a id="deployment-dependencies-installation"></a>
-**Step 3.** Install the project dependencies by running this command
-
+**Step 3.** Run the installation script
 ```bash
-npm install
+chmod +x install.sh
+./install.sh
 ```
-
-**Step 4.** (Optional) Bootstrap AWS CDK on the target account and region
-
-> **Note**: This is required if you have never used AWS CDK on this account and region combination. ([More information on CDK bootstrapping](https://docs.aws.amazon.com/cdk/latest/guide/cli.html#cli-bootstrap)).
-
-```bash
-npx cdk bootstrap aws://{targetAccountId}/{targetRegion}
-```
-
-You can now deploy by running:
-
-```bash
-npx cdk deploy
-```
-You can view the progress of your CDK deployment in the [CloudFormation console](https://console.aws.amazon.com/cloudformation/home) in the selected region.
 
 **Step 5.**  Once deployed, take note of the `UserInterfaceDomainName` that use can use to access the app.
-
 ```bash
 ...
 Outputs:
-ArtifactsAndToolsStack.UserInterfaceDomainName = https://dxxxxxxxxxxxxx.cloudfront.net
-ArtifactsAndToolsStack.CognitoUserPool = https://xxxxx.console.aws.amazon.com/cognito/v2/
+ChatBot.UserInterfaceDomainName = https://dxxxxxxxxxxxxx.cloudfront.net
+ChatBot.CognitoUserPool = https://xxxxx.console.aws.amazon.com/cognito/v2/
 ...
 ```
 
-**Step 6.** Open the generated **CognitoUserPool** Link from outputs above i.e. `https://xxxxx.console.aws.amazon.com/cognito/v2/idp/user-pools/xxxxx_XXXXX/users?region=xxxxx`
+**Step 6.** Add your chat-bot users. Open the generated **CognitoUserPool** Link from outputs above i.e. `https://xxxxx.console.aws.amazon.com/cognito/v2/idp/user-pools/xxxxx_XXXXX/users?region=xxxxx`
 
 **Step 7.** Add a user that will be used to log into the web interface.
 
@@ -150,68 +76,7 @@ ArtifactsAndToolsStack.CognitoUserPool = https://xxxxx.console.aws.amazon.com/co
 
 #### Could not unzip uploaded file...
 
-If you encounter the error "*Could not unzip uploaded file. Please check your file, then try to upload again. (Service: Lambda, Status Code: 400*" during deployment, a possible reason could be that you ran cdk bootstrap with an older CDK version. Please delete the ``CDKToolkit`` stack and bootstrap again.
-
-### Web Search Tool Configuration
-
-The Web Search Tool uses the [Brave Search API](https://brave.com/search/api/). To use the tool, you need to obtain an API key. After obtaining the API key, open the [AWS Secrets Manager](https://console.aws.amazon.com/secretsmanager/listsecrets) console and set the value for the secret specified in the output parameter ``ApiKeysSecretName``.
-
-```json
-{
-  "BRAVE_API_KEY": "..."
-}
-```
-
-
-## Local Development
-### Get aws-exports.json from the backend
-Before you can connect to the backend from the local machine, you should deploy the backend part and then download the ``aws-exports.json`` file with the configuration parameters from the website.
-
-```
-https://dxxxxxxxxxxxxx.cloudfront.net/aws-exports.json
-```
-It looks like this:
-
-```json
-{
-  "region": "eu-west-1",
-  "Auth": {
-    "Cognito": {
-      "userPoolClientId": "0000000000000000000000000",
-      "userPoolId": "eu-west-0_AAAAAAAAA",
-      "identityPoolId": "eu-west-1:aaaaaaaa-aaaaaaaaa-aaaa-aaaaaaaaaaaa"
-    }
-  },
-  "API": {
-    "REST": {
-      "RestApi": { "endpoint": "https://aaaaaaaaaaaaaa.cloudfront.net/api/v1" }
-    }
-  },
-  "config": {
-    "websocket_endpoint": "wss://xxxxxxxxxxxxx.cloudfront.net/socket"
-  }
-}
-
-```
-
-Save the ``aws-exports.json`` file to the `lib/playground/user-interface/public` folder. 
-
-### Run the App with backend access
-
-1. Move into the user interface folder
-```bash
-cd user-interface
-```
-2. Install the project dependencies by running:
-```bash
-npm install
-```
-3. To start the development server, run:
-```bash
-npm run dev
-```
-
-This command will start a local development server at ``http://localhost:3000`` (or a different port if 3000 is in use). The server will hot-reload if you make edits to any of the source files.
+If you encounter the error "*Could not unzip uploaded file. Please check your file, then try to upload again. (Service: Lambda, Status Code: 400*" during deployment, a possible reason could be that you ran cdk bootstrap with an older CDK version. Please delete the ``CDKToolkit`` stack and install again.
 
 ## Security
 
@@ -233,6 +98,7 @@ To view the service quotas for all AWS services in the documentation without swi
 
 You can remove the stacks and all the associated resources created in your AWS account by running the following command:
 ```bash
-npx cdk destroy
+cd chat-bot
+pnpx cdk destroy
 ```
 After deleting your stack, do not forget to delete the logs and content uploaded to the account.
