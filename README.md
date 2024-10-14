@@ -21,9 +21,11 @@ You have:
 
 1. An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 2. `AdministratorAccess` policy granted to your AWS account (for production, we recommend restricting access as needed)
-3. Please make sure, that you have activated access to Claude 3 Haiku Model in **us-west-2** region in your account: Switch **us-west-2** region -> Bedrock -> [Model Access @ us-west-2](https://us-west-2.console.aws.amazon.com/bedrock/home?region=us-west-2#/modelaccess)
+3. Please make sure, that you have activated access to Claude 3 Haiku Model in **us-west-2** region in your account: Switch to `us-west-2` region -> `Amazon Bedrock` -> [Model Access](https://us-west-2.console.aws.amazon.com/bedrock/home?region=us-west-2#/modelaccess)
 
 #### Deploy with CloudShell
+
+**Step 1.**  Deploy the chat-bot to your account in a choosen region (`us-west-2` is recommneded for the workshop).
 
 1. Login to AWS Console
 2. Switch to **us-west-2** (Oregon) region
@@ -37,25 +39,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-You are all set for deployment; you can now jump to [deployment](#deployment).
-
-### Deployment
-
-**Step 1.** Clone the repository
-```bash
-git clone https://github.com/theodor-aws/chat-bot
-```
-**Step 2.** Move into the cloned repository
-```bash
-cd chat-bot
-```
-**Step 3.** Run the installation script
-```bash
-chmod +x install.sh
-./install.sh
-```
-
-**Step 5.**  Once deployed, take note of the `UserInterfaceDomainName` that use can use to access the app.
+**Step 2.** Once deployed, take note of the `UserInterfaceDomainName` that use can use to access the app.
 ```bash
 ...
 Outputs:
@@ -63,14 +47,17 @@ ChatBot.UserInterfaceDomainName = https://dxxxxxxxxxxxxx.cloudfront.net
 ChatBot.CognitoUserPool = https://xxxxx.console.aws.amazon.com/cognito/v2/
 ...
 ```
+You may also find this information in the `Outputs` tab of CloudFormation stack: [CloudFormatin -> `ChatBot`](https://console.aws.amazon.com/cloudformation/home/stacks)
 
-**Step 6.** Add your chat-bot users. Open the generated **CognitoUserPool** Link from outputs above i.e. `https://xxxxx.console.aws.amazon.com/cognito/v2/idp/user-pools/xxxxx_XXXXX/users?region=xxxxx`
+**Step 3.** Add your chat-bot users. Open the generated **CognitoUserPool** Link from outputs above i.e. `https://xxxxx.console.aws.amazon.com/cognito/v2/idp/user-pools/xxxxx_XXXXX/users?region=xxxxx`
 
-**Step 7.** Add a user that will be used to log into the web interface.
+Cognito User Pools may be accessd [here](https://console.aws.amazon.com/cognito/v2/idp/user-pools)
 
-**Step 8.** Open the `User Interface` Url for the outputs above, i.e. `dxxxxxxxxxxxxx.cloudfront.net`.
+**Step 4.** Add a user that will be used to log into the web interface.
 
-**Step 9.** Login with the user created in **Step 7** and follow the instructions.
+**Step 5.** Open the `User Interface` Url for the outputs above, i.e. `dxxxxxxxxxxxxx.cloudfront.net`.
+
+**Step 6.** Login with the user created in **Step 7** and follow the instructions.
 
 ### Deployment Errors
 
