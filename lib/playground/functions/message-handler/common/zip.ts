@@ -1,4 +1,4 @@
-import { gzip, gunzip, type InputType } from "node:zlib"
+import { deflate, inflate, type InputType } from "node:zlib"
 
 
 
@@ -8,7 +8,7 @@ export async function zip(data: InputType) {
 
     return new Promise<Buffer>((resolve, reject) => {
 
-        gzip(data, (err, result) => {
+        deflate(data, (err, result) => {
 
             if (err) {
 
@@ -31,7 +31,7 @@ export async function unzip(data: InputType) {
 
     return new Promise<Buffer>((resolve, reject) => {
 
-        gunzip(data, (err, result) => {
+        inflate(data, (err, result) => {
 
             if (err) {
 
