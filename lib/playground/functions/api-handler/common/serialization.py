@@ -24,14 +24,11 @@ def custom_serializer(obj):
     return obj
 
 def custom_deserializer(obj):
-    if "__bytes__" in obj:
-        return base64.b64decode(obj["__bytes__"])
-    #if "__date__" in obj:
-    #    return datetime.date.fromisoformat(obj["__date__"])
-    #if "__datetime__" in obj:            
-    #    return datetime.datetime.fromisoformat(obj["__datetime__"])
-    for key, value in obj.items():
-        obj[key] = custom_deserializer(value)
+    if isinstance(obj, dict):
+        if "__bytes__" in obj:
+            return base64.b64decode(obj["__bytes__"])
+        for key, value in obj.items():
+            obj[key] = custom_deserializer(value)
     return obj
 
 def serialize(data: dict, compressed=True):
