@@ -30,7 +30,7 @@ You have:
 
 1. Login to AWS Console
 2. Switch to **us-west-2** (Oregon) region
-3. Open CloudShell (use a button on the top-side bar of the console)
+3. Open [CloudShell](https://console.aws.amazon.com/cloudshell)
 4. Run the following commands in CloudShell:
 
 ```shell
