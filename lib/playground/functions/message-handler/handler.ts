@@ -197,15 +197,11 @@ async function converse_make_request_stream(
                 } : undefined
             })
 
-            logger.info(`CONVERSE: attempt ${num_retries}: response`, { streaming_response })
-
             if (streaming_response.stream) {
 
                 let text: string = ''
 
                 for await (const i of streaming_response.stream) {
-
-                    logger.info("Streaming response: Chunk", { chunk: i })
 
                     if (i.contentBlockDelta) {
 
