@@ -36,6 +36,7 @@ export class Playground extends Construct {
 
     readonly userPool       : cognito.IUserPool;
     readonly distribution   : cf.CloudFrontWebDistribution;
+    readonly messageHandler : lambda.Function;
 
     constructor(scope: Construct, id: string, props: PlaygroundProps) {
         super(scope, id);
@@ -155,7 +156,7 @@ export class Playground extends Construct {
             ...props,
         });
 
-        const { webSocketApi } = this.createWebSocketApi({
+        const { webSocketApi, messageHandler } = this.createWebSocketApi({
             sessionTable,
             sessionBucket,
             uploadBucket,
@@ -320,6 +321,7 @@ export class Playground extends Construct {
 
         this.userPool = userPool;
         this.distribution = distribution;
+        this.messageHandler = messageHandler;
     }
 
     createRestApi({
@@ -568,6 +570,6 @@ export class Playground extends Construct {
         sessionBucket.grantReadWrite(messageHandler);
         uploadBucket.grantReadWrite(messageHandler);
 
-        return { webSocketApi };
+        return { webSocketApi, messageHandler };
     }
 }

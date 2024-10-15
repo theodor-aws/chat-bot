@@ -45,18 +45,28 @@ export class ChatBotStack extends cdk.Stack {
             powerToolsLayer
         });
 
-        new cdk.CfnOutput(this, "CognitoUserPool", {
+        new cdk.CfnOutput(this, "Public_URL", {
+            value: `https://${playground.distribution.distributionDomainName}`,
+        });
+
+        new cdk.CfnOutput(this, "User_Pool", {
             value: `https://${cdk.Stack.of(this).region
                 }.console.aws.amazon.com/cognito/v2/idp/user-pools/${playground.userPool.userPoolId
                 }/users?region=${cdk.Stack.of(this).region}`,
         });
 
-        new cdk.CfnOutput(this, "UserInterfaceDomainName", {
-            value: `https://${playground.distribution.distributionDomainName}`,
+        new cdk.CfnOutput(this, "Message_Handler", {
+
+            value: `https://${cdk.Stack.of(this).region
+                }.console.aws.amazon.com/lambda/home?region=${cdk.Stack.of(this).region
+                }#/functions/${playground.messageHandler.functionName
+                }?tab=configure`,
         });
 
+        /*
         new cdk.CfnOutput(this, "ApiKeysSecretName", {
             value: apiKeysSecret.secretName,
         });
+        */
     }
 }
