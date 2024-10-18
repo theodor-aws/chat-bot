@@ -38,7 +38,7 @@ class SessionFilesRequest(BaseModel):
 @router.post("/sessions/<session_id>/files/upload")
 def file_upload(session_id: str):
     data: dict = router.current_event.json_body
-   #request = FileUploadRequest(**data)
+    request = FileUploadRequest(**data)
 
     user_id = (
         router.current_event.get("requestContext", {})
