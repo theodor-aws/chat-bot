@@ -32,7 +32,7 @@ def custom_deserializer(obj):
     return obj
 
 def serialize(data: dict, compressed=True):
-    json_bytes = json.dumps(dict, default=custom_serializer )
+    json_bytes = json.dumps(dict, default=custom_serializer)
     if compressed:
         json_bytes = zlib.compress(json_bytes)
     return json_bytes
