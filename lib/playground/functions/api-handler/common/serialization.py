@@ -1,4 +1,4 @@
-import orjson
+import json
 import base64
 import zlib
 
@@ -7,7 +7,7 @@ def custom_serializer(obj):
     if isinstance(obj, bytes):
         return {"__bytes__": True, "data": base64.b64encode(obj).decode("utf-8")}
 
-    return orjson.OPT_PASSTHROUGH
+    return json.JSONEncoder().default(obj)
 
 
 def custom_deserializer(obj):
@@ -23,18 +23,26 @@ def custom_deserializer(obj):
 
 
 def serialize(data: dict, compressed=True):
-    json_bytes = orjson.dumps(data, default=custom_serializer)
 
-    if compressed:
-        json_bytes = zlib.compress(json_bytes)
+    try:
+        json_bytes = json.dumps(data, default=custom_serializer)
 
-    return json_bytes
+        if compressed:
+            json_bytes = zlib.compress(json_bytes)
+
+        return json_bytes
+
+    except Exception as e:
+
+        print("Serializaton Exception, Exception=", e)
+        print("Serializaton Exception, Data=", data)
+        return ""
 
 
 def deserialize(serialized_data, compressed=True):
     if compressed:
         serialized_data = zlib.decompress(serialized_data)
 
-    data = orjson.loads(serialized_data)
+    data = json.loads(serialized_data)
 
     return custom_deserializer(data)
