@@ -69,9 +69,9 @@ def get_origin_verify_header_value():
     return origin_verify_header_value
 
 
-#@logger.inject_lambda_context(
-#    log_event=True, correlation_id_path=correlation_paths.API_GATEWAY_REST
-#)
+@logger.inject_lambda_context(
+    log_event=True, correlation_id_path=correlation_paths.API_GATEWAY_REST
+)
 def handler(event: dict, context: LambdaContext) -> dict:
     origin_verify_header_value = get_origin_verify_header_value()
     if event["headers"]["X-Origin-Verify"] == origin_verify_header_value:
